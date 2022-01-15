@@ -17,7 +17,7 @@ class CreateUsersTable extends Migration
             $table->id();
             $table->string('firstName', 25);
             $table->string('lastName', 25);
-            $table->string('phoneNumber', 20);
+            $table->string('phoneNumber', 20); // made string to allow for +() and country code formats
             $table->string('email')->unique();
 
             $table->string('password')->unique();
