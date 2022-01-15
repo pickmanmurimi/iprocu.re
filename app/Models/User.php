@@ -45,14 +45,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
      */
     public function roles(): BelongsToMany
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Role::class, 'user_has_roles');
     }
 
     /**
-     * @return HasManyThrough
+     * @return mixed
      */
-    public function permissions(): HasManyThrough
+    public function permissions()
     {
-        return $this->hasManyThrough(Permission::class, Role::class);
+        return $this->roles->pluck('permissions');
     }
 }
