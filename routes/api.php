@@ -13,7 +13,6 @@
 |
 */
 
-use App\Http\Controllers\AuthenticationController;
 use Laravel\Lumen\Routing\Router;
 
 $router->get('/', function () use ($router) {
@@ -22,14 +21,15 @@ $router->get('/', function () use ($router) {
 
 // Auth
 $router->group(['prefix' => 'auth'], function () use ($router) {
-    $router->post('login', [AuthenticationController::class, 'login']);
+    $router->post('login', 'AuthenticationController@login');
+    $router->post('register', 'RegistrationController@register');
 });
 
 
 //api/v1
-    //auth
-        //login
-        //register
+    //auth*
+        //login*
+        //register*
     //users
         //new
         //show

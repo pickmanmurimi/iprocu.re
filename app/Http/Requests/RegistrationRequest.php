@@ -5,10 +5,13 @@ namespace App\Http\Requests;
 use Anik\Form\FormRequest;
 
 /**
+ * @property mixed $first_name
+ * @property mixed $last_name
+ * @property mixed $phone_number
  * @property mixed $email
  * @property mixed $password
  */
-class LoginRequest extends FormRequest
+class RegistrationRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,7 +31,10 @@ class LoginRequest extends FormRequest
     protected function rules(): array
     {
         return [
-            'email' => ['exists:users','email', 'required'],
+            'first_name' => ['required'],
+            'last_name' => ['required'],
+            'phone_number' => ['required', 'unique:users,phoneNumber', 'between:10,15'],
+            'email' => ['required', 'unique:users'],
             'password' => ['required', 'min:6'],
         ];
     }
