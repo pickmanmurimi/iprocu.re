@@ -80,6 +80,10 @@ $app->configure('app');
 //     'auth' => App\Http\Middleware\Authenticate::class,
 // ]);
 
+ $app->routeMiddleware([
+     'api' => \App\Http\Middleware\ApiMiddleware::class
+ ]);
+
 /*
 |--------------------------------------------------------------------------
 | Register Service Providers
@@ -115,8 +119,10 @@ if($app->environment() !== 'production'){
 
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
+    'prefix' => 'api/v1',
+    'middleware' => ['api']
 ], function ($router) {
-    require __DIR__.'/../routes/web.php';
+    require __DIR__.'/../routes/api.php';
 });
 
 return $app;
