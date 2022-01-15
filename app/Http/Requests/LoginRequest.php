@@ -4,6 +4,10 @@ namespace App\Http\Requests;
 
 use Anik\Form\FormRequest;
 
+/**
+ * @property mixed $email
+ * @property mixed $password
+ */
 class LoginRequest extends FormRequest
 {
     /**
