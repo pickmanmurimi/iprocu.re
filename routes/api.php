@@ -27,9 +27,9 @@ $router->group(['prefix' => 'auth'], function () use ($router) {
 
 
 //api/v1
-    //auth
-        //login
-        //register
+    //auth*
+        //login*
+        //register*
     //users
         //new
         //show
