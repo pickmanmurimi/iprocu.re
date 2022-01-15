@@ -29,7 +29,7 @@ class RegistrationTest extends TestCase
         $this->response->assertStatus(201);
         $this->response->assertJson(
             [
-                'status' => true
+                'status' => 'success'
             ]);
         $this->seeInDatabase('users',['email' => 'email@gmail.com']);
 

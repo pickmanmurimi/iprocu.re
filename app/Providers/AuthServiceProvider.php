@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Role;
 use App\Models\User;
+use App\Policies\RolePolicy;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\ServiceProvider;
 
@@ -35,5 +37,8 @@ class AuthServiceProvider extends ServiceProvider
                 return User::where('api_token', $request->input('api_token'))->first();
             }
         });
+
+        // policies
+        Gate::policy( Role::class, RolePolicy::class );
     }
 }

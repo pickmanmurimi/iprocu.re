@@ -25,6 +25,10 @@ $router->group(['prefix' => 'auth'], function () use ($router) {
     $router->post('register', 'RegistrationController@register');
 });
 
+$router->group(['prefix' => 'roles'], function () use ($router) {
+    $router->post('new', 'RolesController@create');
+});
+
 
 //api/v1
     //auth*
