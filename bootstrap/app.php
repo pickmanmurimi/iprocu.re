@@ -61,7 +61,6 @@ $app->singleton(
 
 $app->configure('app');
 $app->configure('auth');
-$app->configure('oauth');
 
 /*
 |--------------------------------------------------------------------------
@@ -82,9 +81,9 @@ $app->configure('oauth');
      'auth' => App\Http\Middleware\Authenticate::class,
  ]);
 
- $app->routeMiddleware([
-     'api' => \App\Http\Middleware\ApiMiddleware::class
- ]);
+// $app->routeMiddleware([
+//     'api' => \App\Http\Middleware\ApiMiddleware::class
+// ]);
 
 /*
 |--------------------------------------------------------------------------
@@ -98,12 +97,10 @@ $app->configure('oauth');
 */
 
 // $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
+ $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
-
+$app->register(\PHPOpenSourceSaver\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(\Anik\Form\FormRequestServiceProvider::class);
-$app->register(Laravel\Passport\PassportServiceProvider::class);
-$app->register(Dusterio\LumenPassport\PassportServiceProvider::class);
 
 /**
  * Configure extra LARAVEL commands to a lumen app
@@ -123,12 +120,9 @@ if($app->environment() !== 'production'){
 |
 */
 
-\Dusterio\LumenPassport\LumenPassport::routes($app, ['prefix' => 'api/v1/oauth']);
-
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
     'prefix' => 'api/v1',
-    'middleware' => ['api']
 ], function ($router) {
     require __DIR__.'/../routes/api.php';
 });
