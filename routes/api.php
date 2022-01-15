@@ -23,6 +23,11 @@ $router->get('/', function () use ($router) {
 $router->group(['prefix' => 'auth'], function () use ($router) {
     $router->post('login', 'AuthenticationController@login');
     $router->post('register', 'RegistrationController@register');
+
+    $router->group(['middleware' => 'auth'], function () use ($router) {
+        $router->post('logout', 'AuthenticationController@logout');
+        $router->get('me', 'AuthenticationController@me');
+    });
 });
 
 $router->group(['prefix' => 'roles'], function () use ($router) {

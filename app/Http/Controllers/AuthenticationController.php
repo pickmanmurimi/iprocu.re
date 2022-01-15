@@ -13,27 +13,54 @@ class AuthenticationController extends Controller
 {
     /**
      * @param LoginRequest $request
-     * @return JsonResponse|ResponseInterface
+     * @return JsonResponse
      */
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request): JsonResponse
     {
+        $credentials = request(['email', 'password']);
 
-        // create guzzle client
-        $client = new Client();
-
-        try {
-            return $client->post(config('oauth.login_url'), [
-                'form_params' => [
-                    'client_secret' => config('oauth.users.client_secret'),
-                    'grant_type' => 'password',
-                    'client_id' => config('oauth.users.client_id'),
-                    'username' => $request->email,
-                    'password' => $request->password,
-                ]
-            ]);
-
-        } catch (GuzzleException $e) {
-            return response()->json(['status' => 'error', 'message' => $e->getMessage()]);
+        if (!$token = auth()->attempt($credentials)) {
+            return $this->sendError('Invalid credentials', 422);
         }
+
+        return $this->respondWithToken($token);
+    }
+
+    /**
+     * Get the token array structure.
+     *
+     * @param string $token
+     *
+     * @return JsonResponse
+     */
+    protected function respondWithToken($token): JsonResponse
+    {
+        return response()->json([
+            'access_token' => $token,
+            'token_type' => 'bearer',
+            'expires_in' => auth()->factory()->getTTL() * 60
+        ]);
+    }
+
+    /**
+     * Get the authenticated User.
+     *
+     * @return JsonResponse
+     */
+    public function me(): JsonResponse
+    {
+        return response()->json(auth()->user());
+    }
+
+    /**
+     * Log the user out (Invalidate the token).
+     *
+     * @return JsonResponse
+     */
+    public function logout(): JsonResponse
+    {
+        auth()->logout();
+
+        return $this->sendSuccess('Successfully logged out');
     }
 }

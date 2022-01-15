@@ -19,6 +19,6 @@ class ApiMiddleware
             return $next($request);
         }
 
-       abort( 403,'Not allowed');
+       return response()->json( ['Forbidden'], 403);
     }
 }
