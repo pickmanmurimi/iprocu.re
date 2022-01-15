@@ -99,6 +99,8 @@ $app->configure('app');
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
+$app->register(\Anik\Form\FormRequestServiceProvider::class);
+
 /**
  * Configure extra LARAVEL commands to a lumen app
  */
