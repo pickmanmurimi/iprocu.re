@@ -1,6 +1,6 @@
 <?php
 
-/** @var \Laravel\Lumen\Routing\Router $router */
+/** @var Router $router */
 
 /*
 |--------------------------------------------------------------------------
@@ -13,9 +13,18 @@
 |
 */
 
+use App\Http\Controllers\AuthenticationController;
+use Laravel\Lumen\Routing\Router;
+
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+// Auth
+$router->group(['prefix' => 'auth'], function () use ($router) {
+    $router->post('login', [AuthenticationController::class, 'login']);
+});
+
 
 //api/v1
     //auth

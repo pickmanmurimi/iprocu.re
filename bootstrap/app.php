@@ -80,6 +80,10 @@ $app->configure('app');
 //     'auth' => App\Http\Middleware\Authenticate::class,
 // ]);
 
+ $app->routeMiddleware([
+     'api' => \App\Http\Middleware\ApiMiddleware::class
+ ]);
+
 /*
 |--------------------------------------------------------------------------
 | Register Service Providers
@@ -94,6 +98,8 @@ $app->configure('app');
 // $app->register(App\Providers\AppServiceProvider::class);
 // $app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
+
+$app->register(\Anik\Form\FormRequestServiceProvider::class);
 
 /**
  * Configure extra LARAVEL commands to a lumen app
@@ -115,8 +121,10 @@ if($app->environment() !== 'production'){
 
 $app->router->group([
     'namespace' => 'App\Http\Controllers',
+    'prefix' => 'api/v1',
+    'middleware' => ['api']
 ], function ($router) {
-    require __DIR__.'/../routes/web.php';
+    require __DIR__.'/../routes/api.php';
 });
 
 return $app;
