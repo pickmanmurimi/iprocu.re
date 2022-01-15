@@ -18,6 +18,7 @@ class AuthorizationTest extends TestCase
     {
         // seed a user
         $this->artisan('db:seed');
+        $this->loginAs(null, 'admin');
 
         // get all the permissions
         $permissions = Permission::all()->pluck('id');

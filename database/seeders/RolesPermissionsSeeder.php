@@ -29,8 +29,8 @@ class RolesPermissionsSeeder extends Seeder
         // =================================================================================
         // Create Roles
         // =================================================================================
-        /** @var Role $super_admin */
-        $super_admin = Role::create(['name' => 'super-admin', 'description' => 'super admin']);
+        /** @var Role $admin */
+        $admin = Role::create(['name' => 'admin', 'description' => 'super admin']);
         /** @var Role $customer */
         $customer = Role::create(['name' => 'customer', 'description' => 'customer']);
 
@@ -38,9 +38,9 @@ class RolesPermissionsSeeder extends Seeder
         // assign permissions
         // =================================================================================
         //  supper admin
-        PermissionsService::assignPermissions($super_admin, $actions, 'users');
-        PermissionsService::assignPermissions($super_admin, $actions, 'roles');
-        PermissionsService::assignPermissions($super_admin, $actions, 'products');
+        PermissionsService::assignPermissions($admin, $actions, 'users');
+        PermissionsService::assignPermissions($admin, $actions, 'roles');
+        PermissionsService::assignPermissions($admin, $actions, 'products');
 
         // customers
         PermissionsService::assignPermissions($customer, ['viewAny', 'view', 'create'], 'products');
