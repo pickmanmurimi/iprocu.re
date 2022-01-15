@@ -2,55 +2,72 @@
 
 use App\Models\User;
 use Laravel\Lumen\Testing\DatabaseMigrations;
-use Laravel\Passport\ClientRepository;
+use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class AuthenticationTest extends TestCase
 {
     use DatabaseMigrations;
 
     /**
-     * A basic test example.
+     * A user can login
      *
      * @return void
      */
-    public function testUserCanLoginViaOauth()
+    public function testUserCanLogin()
     {
         // seed a user
         /** @var User $user */
         $user = User::factory()->count(1)->create()->first();
-        $this->setUpPassport();
 
-        $this->json('POST', 'api/v1/oauth/token', [
-                'client_secret' => config('oauth.users.client_secret'),
-                'grant_type' => 'password',
-                'client_id' => config('oauth.users.client_id'),
-                'username' => $user->email,
-                'password' => 'secret',
+        $this->json('POST', 'api/v1/auth/login', [
+            'email' => $user->email,
+            'password' => 'secret',
         ]);
 
         $this->response->assertStatus(200);
         $this->response->assertJsonStructure(
             [
+                'access_token',
                 'token_type',
                 'expires_in',
-                'access_token',
-                'refresh_token'
             ]);
 
     }
 
     /**
-     * set up passport oauth
+     * Logging out
+     *
+     * @return void
      */
-    private function setUpPassport()
+    public function testUserCanLogOut()
     {
-        // set up passport
-        $client = new ClientRepository();
-        $client = $client->createPasswordGrantClient(null, 'Lumen Password Grant Client',
-            'http://localhost', 'users');
+        $this->loginAs();
 
-        config(['oauth.login_url' => env('OAUTH_URL')]);
-        config(['oauth.users.client_id'=> $client->id]);
-        config(['oauth.users.client_secret' => $client->secret] );
+        $this->json('POST', 'api/v1/auth/logout');
+
+        $this->response->assertStatus(200);
+        $this->response->assertJson(
+            [
+                'status' => 'success',
+                'message' => 'Successfully logged out'
+            ]);
+
+    }
+
+    /**
+     * get authenticated user credentials
+     *
+     * @return void
+     */
+    public function testGetLoggedInUserCredentials()
+    {
+        $this->loginAs();
+
+        $this->json('GET', 'api/v1/auth/me');
+
+        $this->response->assertStatus(200);
+        $this->response->assertJsonStructure(
+            ['firstName','lastName','email','phoneNumber','created_at', 'updated_at']);
+
     }
 }

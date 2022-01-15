@@ -8,7 +8,7 @@ return [
 
     'guards' => [
         'api' => [
-            'driver' => 'passport',
+            'driver' => 'jwt',
             'provider' => 'users',
         ],
     ],
@@ -19,11 +19,4 @@ return [
             'model' => \App\Models\User::class
         ]
     ],
-
-    'oauth' => [
-        'users' => [
-            'client_id' => env('CLIENT_ID'),
-            'client_secret' => env('CLIENT_SECRET'),
-        ],
-    ]
 ];
