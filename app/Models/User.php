@@ -75,4 +75,14 @@ class User extends Model implements AuthenticatableContract, AuthorizableContrac
     {
         return $this->roles->pluck('permissions');
     }
+
+    /**
+     * @param $abilities
+     * @param $arguments
+     * @return bool
+     */
+    public function can($abilities, $arguments = [])
+    {
+        return $this->permissions()->flatten()->pluck('name')->contains($abilities);
+    }
 }

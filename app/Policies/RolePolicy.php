@@ -17,7 +17,7 @@ class RolePolicy
      */
     public function viewAny(User $user): bool
     {
-        return $user->can('role.viewAny');
+        return $user->can('roles.viewAny');
     }
 
     /**
@@ -28,7 +28,7 @@ class RolePolicy
      */
     public function view(User $user): bool
     {
-        return $user->can('role.view');
+        return $user->can('roles.view');
     }
 
     /**
@@ -39,7 +39,7 @@ class RolePolicy
      */
     public function create(User $user): bool
     {
-        return $user->can('role.create');
+        return $user->can('roles.create');
     }
 
     /**
@@ -50,7 +50,7 @@ class RolePolicy
      */
     public function update(User $user): bool
     {
-        return $user->can('role.update');
+        return $user->can('roles.update');
     }
 
     /**
@@ -61,7 +61,7 @@ class RolePolicy
      */
     public function deactivate(User $user): bool
     {
-        return $user->can('role.deactivate');
+        return $user->can('roles.deactivate');
     }
 
     /**
@@ -72,6 +72,6 @@ class RolePolicy
      */
     public function destroy(User $user): bool
     {
-        return $user->can('role.destroy');
+        return $user->can('roles.destroy');
     }
 }

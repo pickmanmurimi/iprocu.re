@@ -18,6 +18,7 @@ class AuthorizationTest extends TestCase
     {
         // seed a user
         $this->artisan('db:seed');
+        $this->loginAs(null, 'admin');
 
         // get all the permissions
         $permissions = Permission::all()->pluck('id');
@@ -35,6 +36,31 @@ class AuthorizationTest extends TestCase
     }
 
     /**
+     * customers cannot create a new role
+     *
+     * @return void
+     */
+    public function testCustomersCannotCreateRoles()
+    {
+        // seed a user
+        $this->artisan('db:seed');
+        $this->loginAs(null, 'customer');
+
+        // get all the permissions
+        $permissions = Permission::all()->pluck('id');
+
+        $this->json('POST', 'api/v1/roles/new', [
+            'name' => 'Test',
+            'description' => 'Test role',
+            'permissions' => $permissions,
+        ]);
+
+        $this->response->assertStatus(403);
+        $this->response->assertJson(["message"=> "This action is unauthorized.",]);
+
+    }
+
+    /**
      * only permissions that exist can be assigned
      *
      * @return void
@@ -43,6 +69,7 @@ class AuthorizationTest extends TestCase
     {
         // seed a user
         $this->artisan('db:seed');
+        $this->loginAs(null, 'admin');
 
         $this->json('POST', 'api/v1/roles/new', [
             'name' => 'Test',
