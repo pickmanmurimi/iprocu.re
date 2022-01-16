@@ -1,10 +1,8 @@
 <?php
 
-use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
 use Laravel\Lumen\Testing\DatabaseMigrations;
-use Laravel\Passport\ClientRepository;
 
 class UsersTest extends TestCase
 {
@@ -128,7 +126,7 @@ class UsersTest extends TestCase
         ]);
 
         $this->response->assertStatus(200);
-        $this->response->assertJson(["message" => "Role updated",]);
+        $this->response->assertJson(["message" => "User updated",]);
         $this->seeInDatabase('users', ['email' => 'test@gmail.com']);
 
     }
