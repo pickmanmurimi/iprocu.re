@@ -26,15 +26,21 @@ class ProductsController extends Controller
 
     /**
      * get all roles
-     * @throws AuthorizationException
+     * @param Request $request
      * @return AnonymousResourceCollection
+     * @throws AuthorizationException
      */
-    public function index(): AnonymousResourceCollection
+    public function index( Request $request): AnonymousResourceCollection
     {
         // authorize ability to view all products
         $this->authorize('viewAny', Product::class);
 
-        $products = Product::orderBy('created_at','desc')->get();
+        $products = Product::orderBy('created_at','desc')
+            ->search('name', $request->name )
+            ->lessThan('price', $request->maxprice)
+            ->greaterThan('price', $request->minprice)
+            ->get();
+
         return ProductResource::collection($products);
     }
 
@@ -52,6 +58,26 @@ class ProductsController extends Controller
         $product = Product::findOrFail( $id );
 
         return new ProductResource( $product );
+    }
+
+
+    /**
+     * get specific role
+     * @return AnonymousResourceCollection
+     * @throws AuthorizationException
+     */
+    public function myProducts(): AnonymousResourceCollection
+    {
+        // authorize ability to view a product
+        $this->authorize('view', Product::class);
+
+        /** @var User $user */
+        $user = auth()->user();
+
+        /** @var Product $products */
+        $products = $user->products;
+
+        return ProductResource::collection( $products );
     }
 
     /**

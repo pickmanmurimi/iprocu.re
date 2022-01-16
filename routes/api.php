@@ -49,6 +49,7 @@ $router->group(['prefix' => 'products', 'middleware' => 'auth'], function () use
     $router->post('new', 'ProductsController@create');
     $router->get('show', 'ProductsController@index');
     $router->get('show/{id}', 'ProductsController@show');
+    $router->get('my-products', 'ProductsController@myProducts');
     $router->put('update/{id}', 'ProductsController@update');
     $router->delete('delete/{id}', 'ProductsController@delete');
 });
