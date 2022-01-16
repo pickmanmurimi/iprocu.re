@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
 
         // seed users
         // creates 10 users
-        User::factory()->count(10)->create()->each(function ($user) {
+        User::factory()->hasProducts(3)->count(10)->create()->each(function ( User $user) {
             $user->roles()->syncWithoutDetaching( rand(1,2) );
         });
     }

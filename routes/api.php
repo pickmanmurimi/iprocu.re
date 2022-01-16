@@ -15,10 +15,6 @@
 
 use Laravel\Lumen\Routing\Router;
 
-$router->get('/', function () use ($router) {
-    return $router->app->version();
-});
-
 // Auth
 $router->group(['prefix' => 'auth'], function () use ($router) {
     $router->post('login', 'AuthenticationController@login');
@@ -48,23 +44,11 @@ $router->group(['prefix' => 'users', 'middleware' => 'auth'], function () use ($
     $router->delete('delete/{id}', 'UsersController@delete');
 });
 
-
-//api/v1
-    //auth*
-        //login*
-        //register*
-    //users*
-        //new*
-        //show*
-        //update/:id*
-        //delete/:id*
-    //roles*
-        //new*
-        //show*
-        //update/:id*
-        //delete/:id*
-    //products
-        //new
-        //show
-        //update/:id
-        //delete/:id
+// products
+$router->group(['prefix' => 'products', 'middleware' => 'auth'], function () use ($router) {
+    $router->post('new', 'ProductsController@create');
+    $router->get('show', 'ProductsController@index');
+    $router->get('show/{id}', 'ProductsController@show');
+    $router->put('update/{id}', 'ProductsController@update');
+    $router->delete('delete/{id}', 'ProductsController@delete');
+});
