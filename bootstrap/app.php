@@ -27,6 +27,8 @@ $app = new Laravel\Lumen\Application(
 
  $app->withEloquent();
 
+$app->make('queue');
+
 /*
 |--------------------------------------------------------------------------
 | Register Container Bindings
@@ -62,6 +64,7 @@ $app->singleton(
 $app->configure('app');
 $app->configure('auth');
 $app->configure('mail');
+$app->configure('queue');
 
 /*
 |--------------------------------------------------------------------------
