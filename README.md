@@ -35,7 +35,8 @@ DB_PASSWORD=
 
 # set the mail credentials
 # you can use mailtrap for this
-MAIL_MAILER=smtp
+# or set the MAIL_MAILER to array
+MAIL_MAILER=smtp / array
 MAIL_HOST=smtp.mailtrap.io
 MAIL_PORT=2525
 MAIL_USERNAME=
