@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Permission;
+use App\Models\Product;
 use App\Models\Role;
 use App\Models\User;
 use Laravel\Lumen\Testing\DatabaseMigrations;
@@ -11,7 +12,7 @@ class ProductsTest extends TestCase
     use DatabaseMigrations;
 
     /**
-     * can create a new role
+     * can create a new product
      *
      * @return void
      */
@@ -39,7 +40,7 @@ class ProductsTest extends TestCase
     }
 
     /**
-     * can create a new role
+     * customer can create a new product
      *
      * @return void
      */
@@ -68,22 +69,22 @@ class ProductsTest extends TestCase
 
 
     /**
-     * can get a single role
+     * can get a single product
      *
      * @return void
      */
-    public function testCanGetSingleUser()
+    public function testCanGetSingleProduct()
     {
         // seed a user
         $this->artisan('db:seed');
         $this->loginAs(null, 'admin');
-        $user = User::first();
+        $product = Product::first();
 
-        $this->json('GET', 'api/v1/users/show/' . $user->id);
+        $this->json('GET', 'api/v1/products/show/' . $product->id);
 
         $this->response->assertStatus(200);
         $this->response->assertJsonStructure(['data' =>
-            ['firstName', 'lastName', 'phoneNumber', 'email', 'roles', 'created_at', 'updated_at',]]);
+            ['name', 'description', 'type', 'category', 'price', 'quantity', 'manufacturer', 'distributor',]]);
 
     }
 

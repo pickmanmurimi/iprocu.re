@@ -7,6 +7,7 @@ use App\Http\Requests\CreateRolesRequest;
 use App\Http\Requests\CreateUsersRequest;
 use App\Http\Requests\UpdateRolesRequest;
 use App\Http\Requests\UpdateUsersRequest;
+use App\Http\Resources\ProductResource;
 use App\Http\Resources\RoleResource;
 use App\Http\Resources\UserResource;
 use App\Models\Product;
@@ -39,17 +40,17 @@ class ProductsController extends Controller
     /**
      * get specific role
      * @param $id
-     * @return UserResource
+     * @return ProductResource
      * @throws AuthorizationException
      */
-    public function show($id): UserResource
+    public function show($id): ProductResource
     {
-        // authorize ability to view a role
+        // authorize ability to view a product
         $this->authorize('viewAny', User::class);
 
-        $user = User::findOrFail( $id );
+        $product = Product::findOrFail( $id );
 
-        return new UserResource( $user );
+        return new ProductResource( $product );
     }
 
     /**
