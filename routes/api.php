@@ -30,8 +30,13 @@ $router->group(['prefix' => 'auth'], function () use ($router) {
     });
 });
 
+// roles
 $router->group(['prefix' => 'roles', 'middleware' => 'auth'], function () use ($router) {
     $router->post('new', 'RolesController@create');
+    $router->get('show', 'RolesController@index');
+    $router->get('show/{id}', 'RolesController@show');
+    $router->put('update/{id}', 'RolesController@update');
+    $router->delete('delete/{id}', 'RolesController@delete');
 });
 
 
