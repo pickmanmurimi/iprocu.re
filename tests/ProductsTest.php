@@ -192,4 +192,24 @@ class ProductsTest extends TestCase
         $this->assertTrue(Product::find($product->id) === null);
 
     }
+
+    /**
+     * Customer cannot delete product
+     *
+     * @return void
+     */
+    public function testCustomerCannotDeleteProduct()
+    {
+        // seed a user
+        $this->artisan('db:seed');
+        $this->loginAs(null, 'customer');
+
+        // get product
+        $product = Product::first();
+
+        $this->json('DELETE', 'api/v1/products/delete/' . $product->id);
+
+        $this->response->assertStatus(403);
+
+    }
 }
