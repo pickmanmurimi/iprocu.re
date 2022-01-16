@@ -4,6 +4,8 @@
 ### Api Documentation
 https://documenter.getpostman.com/view/4401620/UVXkmZgD
 
+You will only need to set the `APP_URL` and `TOKEN` environment variables to test the api on postman.
+
 # setup
 ### Requirements
 
@@ -50,6 +52,10 @@ Install the database tables
 Seed some test data
 
     php artisan db:seed
+
+You can run the tests
+
+     .\vendor\bin\phpunit
 
 Finally,
 
