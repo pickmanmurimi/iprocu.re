@@ -2,6 +2,7 @@
 
 namespace App\Policies;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -46,32 +47,24 @@ class RolePolicy
      * update
      *
      * @param User $user
+     * @param Role $role
      * @return bool
      */
-    public function update(User $user): bool
+    public function update(User $user, Role $role): bool
     {
-        return $user->can('roles.update');
-    }
-
-    /**
-     * deactivate
-     *
-     * @param User $user
-     * @return bool
-     */
-    public function deactivate(User $user): bool
-    {
-        return $user->can('roles.deactivate');
+        // cannot update admin role
+        return $user->can('roles.update') && $role->name !== 'admin';
     }
 
     /**
      * destroy
      *
      * @param User $user
+     * @param Role $role
      * @return bool
      */
-    public function destroy(User $user): bool
+    public function destroy(User $user, Role $role): bool
     {
-        return $user->can('roles.destroy');
+        return $user->can('roles.destroy') && $role->name !== 'admin';
     }
 }

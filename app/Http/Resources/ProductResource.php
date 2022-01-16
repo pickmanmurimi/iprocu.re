@@ -14,6 +14,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
  * @property mixed $quantity
  * @property mixed $manufacturer
  * @property mixed $distributor
+ * @property mixed $id
  */
 class ProductResource extends JsonResource
 {
@@ -26,6 +27,7 @@ class ProductResource extends JsonResource
     public function toArray($request)
     {
         return $this->resource ? [
+            'id' => $this->id,
             'name' => $this->name,
             'description' => $this->description,
             'type' => $this->type,

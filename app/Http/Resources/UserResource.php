@@ -6,13 +6,14 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 /**
- * @property mixed $first_name
- * @property mixed $last_name
- * @property mixed $phone_number
+ * @property mixed $firstName
+ * @property mixed $lastName
+ * @property mixed $phoneNumber
  * @property mixed $email
  * @property mixed $roles
  * @property mixed $created_at
  * @property mixed $updated_at
+ * @property mixed $id
  */
 class UserResource extends JsonResource
 {
@@ -25,9 +26,10 @@ class UserResource extends JsonResource
     public function toArray($request)
     {
         return $this->resource ? [
-            'firstName' => $this->first_name,
-            'lastName' => $this->last_name,
-            'phoneNumber' => $this->phone_number,
+            'id' => $this->id,
+            'firstName' => $this->firstName,
+            'lastName' => $this->lastName,
+            'phoneNumber' => $this->phoneNumber,
             'email' => $this->email,
             'roles' => RoleResource::collection($this->roles),
             'created_at' => $this->created_at,

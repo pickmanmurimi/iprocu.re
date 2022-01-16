@@ -35,7 +35,7 @@ $router->group(['prefix' => 'roles', 'middleware' => 'auth'], function () use ($
     $router->delete('delete/{id}', 'RolesController@delete');
 });
 
-// roles
+// users
 $router->group(['prefix' => 'users', 'middleware' => 'auth'], function () use ($router) {
     $router->post('new', 'UsersController@create');
     $router->get('show', 'UsersController@index');

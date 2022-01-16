@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\LoginRequest;
+use App\Http\Resources\UserResource;
+use App\Models\User;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\JsonResponse;
@@ -45,11 +47,11 @@ class AuthenticationController extends Controller
     /**
      * Get the authenticated User.
      *
-     * @return JsonResponse
+     * @return UserResource
      */
-    public function me(): JsonResponse
+    public function me(): UserResource
     {
-        return response()->json(auth()->user());
+        return new UserResource( User::with(['roles', 'roles.permissions'])->find(auth()->user()->id));
     }
 
     /**

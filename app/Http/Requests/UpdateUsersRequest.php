@@ -35,7 +35,7 @@ class UpdateUsersRequest extends FormRequest
             'first_name' => ['required'],
             'last_name' => ['required'],
             'role' => ['required'],
-            'phone_number' => ['required', 'between:10,15', Rule::unique('users', 'phone_number')
+            'phone_number' => ['required', 'between:10,15', Rule::unique('users', 'phoneNumber')
                 ->ignore($this->route('id'), 'id')],
             'email' => ['required', Rule::unique('users', 'email')
                 ->ignore($this->route('id'), 'id')],

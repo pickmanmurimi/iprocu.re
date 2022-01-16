@@ -79,7 +79,7 @@ class UsersController extends Controller
     }
 
     /**
-     * @param UpdateRolesRequest $request
+     * @param UpdateUsersRequest $request
      * @param $id
      * @return JsonResponse
      * @throws AuthorizationException
@@ -101,7 +101,7 @@ class UsersController extends Controller
 
             $user->roles()->sync($request->role);
 
-            return $this->sendSuccess('Role updated', 200);
+            return $this->sendSuccess('User updated', 200);
         } catch (Exception $e) {
             return $this->sendError($e->getMessage(), 500);
         }

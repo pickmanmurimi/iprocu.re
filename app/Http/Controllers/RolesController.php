@@ -40,7 +40,7 @@ class RolesController extends Controller
         // authorize ability to view a role
         $this->authorize('viewAny', Role::class);
 
-        $role = Role::findOrFail( $id );
+        $role = Role::with('permissions')->findOrFail( $id );
 
         return new RoleResource( $role );
     }
@@ -78,10 +78,10 @@ class RolesController extends Controller
      */
     public function update(UpdateRolesRequest $request, $id): JsonResponse
     {
-        // authorize ability to update roles
-        $this->authorize('update', Role::class);
-
         $role = Role::findOrFail( $id );
+
+        // authorize ability to update roles
+        $this->authorize('update', $role);
 
         try {
             /** @var Role $role */
@@ -106,10 +106,10 @@ class RolesController extends Controller
      */
     public function delete($id): JsonResponse
     {
-        // authorize ability to update roles
-        $this->authorize('destroy', Role::class);
-
         $role = Role::findOrFail( $id );
+
+        // authorize ability to update roles
+        $this->authorize('destroy', $role);
 
         $role->delete();
 
