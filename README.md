@@ -38,6 +38,19 @@ DB_PASSWORD=
 A lumen project is quite easy to get running, You basically need to run.
 
     composer install
+
+Install the jwt secret
+    
+    php artisan jwt:secret 
+
+Install the database tables
+
+    php artisan migrate
+
+Seed some test data
+
+    php artisan db:seed
+
 Finally,
 
     php artisan serve
