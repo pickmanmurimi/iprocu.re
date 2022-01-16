@@ -39,21 +39,30 @@ $router->group(['prefix' => 'roles', 'middleware' => 'auth'], function () use ($
     $router->delete('delete/{id}', 'RolesController@delete');
 });
 
+// roles
+$router->group(['prefix' => 'users', 'middleware' => 'auth'], function () use ($router) {
+    $router->post('new', 'UsersController@create');
+    $router->get('show', 'UsersController@index');
+    $router->get('show/{id}', 'UsersController@show');
+    $router->put('update/{id}', 'UsersController@update');
+    $router->delete('delete/{id}', 'UsersController@delete');
+});
+
 
 //api/v1
     //auth*
         //login*
         //register*
-    //users
-        //new
-        //show
-        //update/:id
-        //delete/:id
-    //roles
-        //new
-        //show
-        //update/:id
-        //delete/:id
+    //users*
+        //new*
+        //show*
+        //update/:id*
+        //delete/:id*
+    //roles*
+        //new*
+        //show*
+        //update/:id*
+        //delete/:id*
     //products
         //new
         //show
