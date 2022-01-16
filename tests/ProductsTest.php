@@ -88,7 +88,6 @@ class ProductsTest extends TestCase
 
     }
 
-
     /**
      * can get all products
      *
@@ -100,6 +99,25 @@ class ProductsTest extends TestCase
         $this->artisan('db:seed');
         $this->loginAs(null, 'admin');
         $this->json('GET', 'api/v1/products/show/');
+
+        $this->response->assertStatus(200);
+        $this->response->assertJsonStructure(['data' =>
+            [['name', 'description', 'type', 'category', 'price', 'quantity', 'manufacturer', 'distributor',]]]);
+
+    }
+
+    /**
+     * customer can own products
+     *
+     * @return void
+     */
+    public function testCustomerCanGetOwnProducts()
+    {
+        // seed a user
+        $this->artisan('db:seed');
+        $customer = Role::whereName('customer')->first()->users->first();
+        $this->loginAs($customer);
+        $this->json('GET', 'api/v1/products/my-products');
 
         $this->response->assertStatus(200);
         $this->response->assertJsonStructure(['data' =>
