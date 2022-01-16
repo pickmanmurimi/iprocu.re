@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\CreateProductsRequest;
 use App\Http\Requests\CreateRolesRequest;
 use App\Http\Requests\CreateUsersRequest;
+use App\Http\Requests\UpdateProductsRequest;
 use App\Http\Requests\UpdateRolesRequest;
 use App\Http\Requests\UpdateUsersRequest;
 use App\Http\Resources\ProductResource;
@@ -85,29 +86,31 @@ class ProductsController extends Controller
     }
 
     /**
-     * @param UpdateRolesRequest $request
+     * @param UpdateProductsRequest $request
      * @param $id
      * @return JsonResponse
      * @throws AuthorizationException
      */
-    public function update(UpdateUsersRequest $request, $id): JsonResponse
+    public function update(UpdateProductsRequest $request, $id): JsonResponse
     {
         // authorize ability to update roles
-        $this->authorize('update', User::class);
+        $this->authorize('update', Product::class);
 
-        $user = User::findOrFail( $id );
+        $product = Product::findOrFail( $id );
 
         try {
-            $user->update([
-                'firstName' => $request->first_name,
-                'lastName' => $request->last_name,
-                'phoneNumber' => $request->phone_number,
-                'email' => $request->email,
+            $product->update([
+                'name' => $request->name,
+                'description' => $request->description,
+                'type' => $request->type,
+                'category' => $request->category,
+                'price' => $request->price,
+                'quantity' => $request->quantity,
+                'manufacturer' => $request->manufacturer,
+                'distributor' => $request->distributor,
             ]);
 
-            $user->roles()->sync($request->role);
-
-            return $this->sendSuccess('Role updated', 200);
+            return $this->sendSuccess('Product updated', 200);
         } catch (Exception $e) {
             return $this->sendError($e->getMessage(), 500);
         }
@@ -122,13 +125,13 @@ class ProductsController extends Controller
     public function delete($id): JsonResponse
     {
         // authorize ability to update roles
-        $this->authorize('destroy', User::class);
+        $this->authorize('destroy', Product::class);
 
-        $user = User::findOrFail( $id );
+        $product = Product::findOrFail( $id );
 
-        $user->delete();
+        $product->delete();
 
-        return $this->sendSuccess('User deleted', 200);
+        return $this->sendSuccess('Product deleted', 200);
     }
 
 }

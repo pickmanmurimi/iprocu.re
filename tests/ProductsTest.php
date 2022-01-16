@@ -90,7 +90,7 @@ class ProductsTest extends TestCase
 
 
     /**
-     * can get all users
+     * can get all products
      *
      * @return void
      */
@@ -108,79 +108,73 @@ class ProductsTest extends TestCase
     }
 
     /**
-     * customers cannot create a new user
+     * customers can get products
      *
      * @return void
      */
-    public function testCustomersCannotCreateUsers()
+    public function testCustomerCanGetProducts()
     {
         // seed a user
         $this->artisan('db:seed');
         $this->loginAs(null, 'customer');
+        $this->json('GET', 'api/v1/products/show/');
 
-        // get role
-        $role = Role::inRandomOrder()->first();
+        $this->response->assertStatus(200);
+        $this->response->assertJsonStructure(['data' =>
+            [['name', 'description', 'type', 'category', 'price', 'quantity', 'manufacturer', 'distributor',]]]);
 
-        $this->json('POST', 'api/v1/users/new', [
-                'first_name' => 'Test First name',
-                'last_name' => 'Test Last name',
-                'email' => 'test@gmail.com',
-                'phone_number' => '+254701145285',
-                'role' => $role->id,
-            ]
-        );
-
-        $this->response->assertStatus(403);
-        $this->response->assertJson(["message" => "This action is unauthorized.",]);
     }
 
     /**
-     * Role can be updated
+     * Product can be updated
      *
      * @return void
      */
-    public function testCanUpdateUser()
+    public function testCanUpdateProduct()
     {
         // seed a user
         $this->artisan('db:seed');
         $this->loginAs(null, 'admin');
 
-        // get role
-        $user = User::first();
+        // get product
+        $product = Product::first();
 
-        $this->json('PUT', 'api/v1/users/update/' . $user->id, [
-            'first_name' => 'Test First name',
-            'last_name' => 'Test Last name',
-            'email' => 'test@gmail.com',
-            'phone_number' => '+254701145285',
-            'role' => Role::first()->id,
+        $this->json('PUT', 'api/v1/products/update/' . $product->id, [
+            'name' => 'Test name',
+            'description' => 'Test description',
+            'type' => 'Test type',
+            'category' => 'Test category',
+            'price' => 100.99,
+            'quantity' => 5,
+            'manufacturer' => 'Test manufacturer',
+            'distributor' => 'Test distributor',
         ]);
 
         $this->response->assertStatus(200);
-        $this->response->assertJson(["message" => "Role updated",]);
-        $this->seeInDatabase('users', ['email' => 'test@gmail.com']);
+        $this->response->assertJson(["message" => "Product updated",]);
+        $this->seeInDatabase('products', ['name' => 'Test name']);
 
     }
 
     /**
-     * Role can be updated
+     * Product can be deleted
      *
      * @return void
      */
-    public function testCanDeleteUsers()
+    public function testCanDeleteProduct()
     {
         // seed a user
         $this->artisan('db:seed');
         $this->loginAs(null, 'admin');
 
-        // get user
-        $user = User::first();
+        // get product
+        $product = Product::first();
 
-        $this->json('DELETE', 'api/v1/users/delete/' . $user->id);
+        $this->json('DELETE', 'api/v1/products/delete/' . $product->id);
 
         $this->response->assertStatus(200);
-        $this->response->assertJson(["message" => "User deleted",]);
-        $this->assertTrue(User::find($user->id) === null);
+        $this->response->assertJson(["message" => "Product deleted",]);
+        $this->assertTrue(Product::find($product->id) === null);
 
     }
 }
