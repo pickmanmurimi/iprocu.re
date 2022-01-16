@@ -94,16 +94,16 @@ class ProductsTest extends TestCase
      *
      * @return void
      */
-    public function testCanGetUsers()
+    public function testCanGetProducts()
     {
         // seed a user
         $this->artisan('db:seed');
         $this->loginAs(null, 'admin');
-        $this->json('GET', 'api/v1/users/show/');
+        $this->json('GET', 'api/v1/products/show/');
 
         $this->response->assertStatus(200);
         $this->response->assertJsonStructure(['data' =>
-            [['firstName', 'lastName', 'phoneNumber', 'email', 'roles', 'created_at', 'updated_at',]]]);
+            [['name', 'description', 'type', 'category', 'price', 'quantity', 'manufacturer', 'distributor',]]]);
 
     }
 

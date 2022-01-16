@@ -30,11 +30,11 @@ class ProductsController extends Controller
      */
     public function index(): AnonymousResourceCollection
     {
-        // authorize ability to view all roles
-        $this->authorize('viewAny', User::class);
+        // authorize ability to view all products
+        $this->authorize('viewAny', Product::class);
 
-        $roles = User::orderBy('created_at','desc')->with('roles')->get();
-        return UserResource::collection($roles);
+        $products = Product::orderBy('created_at','desc')->get();
+        return ProductResource::collection($products);
     }
 
     /**
@@ -46,7 +46,7 @@ class ProductsController extends Controller
     public function show($id): ProductResource
     {
         // authorize ability to view a product
-        $this->authorize('viewAny', User::class);
+        $this->authorize('viewAny', Product::class);
 
         $product = Product::findOrFail( $id );
 
