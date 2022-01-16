@@ -2,9 +2,7 @@
 
 use App\Models\Permission;
 use App\Models\Role;
-use App\Models\User;
 use Laravel\Lumen\Testing\DatabaseMigrations;
-use Laravel\Passport\ClientRepository;
 
 class AuthorizationTest extends TestCase
 {
@@ -142,12 +140,12 @@ class AuthorizationTest extends TestCase
         $this->loginAs(null, 'admin');
 
         // get role
-        $role = Role::first();
+        $role = Role::create([ 'name' => 'Test', 'description' => 'test']);;
 
         $this->json('PUT', 'api/v1/roles/update/' . $role->id, [
             'name' => 'Test',
             'description' => 'Test role',
-            'permissions' => $role->permissions->pluck('id'),
+            'permissions' => Permission::all()->pluck('id'),
         ]);
 
         $this->response->assertStatus(200);
@@ -157,7 +155,7 @@ class AuthorizationTest extends TestCase
     }
 
     /**
-     * Role can be updated
+     * Role can be deleted
      *
      * @return void
      */
@@ -168,13 +166,33 @@ class AuthorizationTest extends TestCase
         $this->loginAs(null, 'admin');
 
         // get role
-        $role = Role::first();
+        $role = Role::create([ 'name' => 'Test', 'description' => 'test']);
 
         $this->json('DELETE', 'api/v1/roles/delete/' . $role->id);
 
         $this->response->assertStatus(200);
         $this->response->assertJson(["message" => "Role deleted",]);
         $this->assertTrue( Role::find($role->id) === null);
+
+    }
+
+    /**
+     * Role cannot delete main admin role
+     *
+     * @return void
+     */
+    public function testCannotDeleteAdminRole()
+    {
+        // seed a user
+        $this->artisan('db:seed');
+        $this->loginAs(null, 'admin');
+
+        // get role
+        $role = Role::first();
+
+        $this->json('DELETE', 'api/v1/roles/delete/' . $role->id);
+
+        $this->response->assertStatus(403);
 
     }
 }

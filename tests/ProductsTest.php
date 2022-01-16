@@ -1,11 +1,8 @@
 <?php
 
-use App\Models\Permission;
 use App\Models\Product;
 use App\Models\Role;
-use App\Models\User;
 use Laravel\Lumen\Testing\DatabaseMigrations;
-use Laravel\Passport\ClientRepository;
 
 class ProductsTest extends TestCase
 {

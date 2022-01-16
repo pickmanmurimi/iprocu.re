@@ -2,7 +2,6 @@
 
 use App\Models\User;
 use Laravel\Lumen\Testing\DatabaseMigrations;
-use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
 
 class AuthenticationTest extends TestCase
 {
@@ -67,7 +66,7 @@ class AuthenticationTest extends TestCase
 
         $this->response->assertStatus(200);
         $this->response->assertJsonStructure(
-            ['firstName','lastName','email','phoneNumber','created_at', 'updated_at']);
+            [ 'data' => ['firstName','lastName','email','phoneNumber','created_at', 'updated_at']]);
 
     }
 }

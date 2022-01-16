@@ -2,7 +2,6 @@
 
 use App\Models\User;
 use Laravel\Lumen\Testing\DatabaseMigrations;
-use Laravel\Passport\ClientRepository;
 
 class RegistrationTest extends TestCase
 {
