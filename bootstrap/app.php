@@ -61,6 +61,7 @@ $app->singleton(
 
 $app->configure('app');
 $app->configure('auth');
+$app->configure('mail');
 
 /*
 |--------------------------------------------------------------------------
@@ -101,6 +102,15 @@ $app->configure('auth');
 // $app->register(App\Providers\EventServiceProvider::class);
 $app->register(\PHPOpenSourceSaver\JWTAuth\Providers\LumenServiceProvider::class);
 $app->register(\Anik\Form\FormRequestServiceProvider::class);
+$app->register(Illuminate\Mail\MailServiceProvider::class);
+
+// alias
+$app->alias('mail.manager', Illuminate\Mail\MailManager::class);
+$app->alias('mail.manager', Illuminate\Contracts\Mail\Factory::class);
+
+$app->alias('mailer', Illuminate\Mail\Mailer::class);
+$app->alias('mailer', Illuminate\Contracts\Mail\Mailer::class);
+$app->alias('mailer', Illuminate\Contracts\Mail\MailQueue::class);
 
 /**
  * Configure extra LARAVEL commands to a lumen app
