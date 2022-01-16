@@ -15,26 +15,26 @@ class ProductsTest extends TestCase
      *
      * @return void
      */
-    public function testCanCreateNewUser()
+    public function testCanCreateNewProduct()
     {
         // seed a user
         $this->artisan('db:seed');
         $this->loginAs(null, 'admin');
 
-        // get role
-        $role = Role::inRandomOrder()->first();
-
-        $this->json('POST', 'api/v1/users/new', [
-            'first_name' => 'Test First name',
-            'last_name' => 'Test Last name',
-            'email' => 'test@gmail.com',
-            'phone_number' => '+254701145285',
-            'role' => $role->id,
+        $this->json('POST', 'api/v1/products/new', [
+            'name' => 'Test name',
+            'description' => 'Test description',
+            'type' => 'Test type',
+            'category' => 'Test category',
+            'price' => 100.99,
+            'quantity' => 5,
+            'manufacturer' => 'Test manufacturer',
+            'distributor' => 'Test distributor',
         ]);
 
         $this->response->assertStatus(201);
         $this->response->assertJson(['status' => 'success']);
-        $this->seeInDatabase('users', ['email' => 'test@gmail.com']);
+        $this->seeInDatabase('products', ['name' => 'Test name']);
 
     }
 
