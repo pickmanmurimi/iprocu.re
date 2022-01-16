@@ -3,9 +3,7 @@
 
     Your Account has been successfully created.
 
-    Your password has been set to  <b>{{ $password }}</b> .
-
-<a href="{{$url}}"> {{$url}} </a>
+    Your password has been set to  {{ $password }} .
 
     Thanks,
     {{ config('app.name') }}

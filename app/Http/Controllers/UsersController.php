@@ -6,12 +6,14 @@ use App\Http\Requests\CreateUsersRequest;
 use App\Http\Requests\UpdateRolesRequest;
 use App\Http\Requests\UpdateUsersRequest;
 use App\Http\Resources\UserResource;
+use App\Mail\AccountCreatedMail;
 use App\Models\User;
 use Exception;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 
 class UsersController extends Controller
@@ -70,7 +72,8 @@ class UsersController extends Controller
 
             $user->roles()->sync($request->role);
 
-            //TODO Mail the password
+            // Mail the password
+            Mail::to($user)->send( new AccountCreatedMail( $user, $password ));
 
             return $this->sendSuccess('User created', 201);
         } catch (Exception $e) {
