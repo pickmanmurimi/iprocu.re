@@ -106,7 +106,7 @@ class UsersTest extends TestCase
     }
 
     /**
-     * Role can be updated
+     * User can be updated
      *
      * @return void
      */
@@ -134,7 +134,7 @@ class UsersTest extends TestCase
     }
 
     /**
-     * Role can be updated
+     * User can be updated
      *
      * @return void
      */
