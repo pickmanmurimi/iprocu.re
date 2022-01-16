@@ -33,6 +33,17 @@ DB_DATABASE=iprocure
 DB_USERNAME=iprocure
 DB_PASSWORD=
 
+# set the mail credentials
+# you can use mailtrap for this
+MAIL_MAILER=smtp
+MAIL_HOST=smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=
+MAIL_PASSWORD=
+MAIL_ENCRYPTION=tls
+MAIL_FROM_ADDRESS=hello@iproc.re
+MAIL_FROM_NAME="Iproc.re"
+
 ```
 
 ## Running the Project.
@@ -57,6 +68,9 @@ You can run the tests
 
      .\vendor\bin\phpunit
 
+On a different terminal tab, you can start the queue worker
+
+    php artisan queue:work
 Finally,
 
     php artisan serve
